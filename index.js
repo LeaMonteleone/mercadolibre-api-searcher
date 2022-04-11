@@ -1,7 +1,8 @@
 function removeItems() {
-  const containerEl = document.querySelector(".results-container");
-  while (containerEl.lastElementChild) {
-    containerEl.removeChild(containerEl.lastElementChild);
+  const searchButton = document.querySelector(".search-button");
+  const resultsEl = document.querySelector("results");
+  while (resultsEl.firstChild) {
+    resultsEl.lastChild.remove();
   }
 }
 
@@ -38,11 +39,14 @@ function main() {
 
   searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
+    removeItems();
     const searchResult = e.target.buscar.value;
 
     fetch("https://api.mercadolibre.com/sites/MLA/search?q=" + searchResult)
       .then((response) => response.json())
-      .then((data) => showResults(data.results));
+      .then((data) => {
+        showResults(data.results);
+      });
   });
 }
 
